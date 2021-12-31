@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const Boom = require('boom')
 
 const UserDAL = require('../DAL/UserDAL')
+const { wrapAsyncHandler } = require('../middlewares/wrapAsyncHandler')
 
 
 const register = async (req, res, next) => {
@@ -26,5 +27,5 @@ const register = async (req, res, next) => {
 }
 
 module.exports = {
-    register
+    register: wrapAsyncHandler(register)
 }
