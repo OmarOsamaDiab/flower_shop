@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const registeration = require('../controllers/register')
-router.post('/', registeration.register)
+const validator = require('../validators/register')
+
+router.post('/', validator.register, registeration.register)
 
 module.exports = router
