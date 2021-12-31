@@ -1,8 +1,8 @@
 const User = require('../models/User')
 
-const registerNewUser = ({ email, username, password }) => {
+const registerNewUser = ({ email, username, password, phone }) => {
     return User.query().insertAndFetch({
-        email, username, password
+        email, username, password, phone
     })
 }
 

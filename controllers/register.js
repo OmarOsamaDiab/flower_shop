@@ -11,7 +11,10 @@ const register = async (req, res, next) => {
         phone
     })
     res.json({
-        ...user
+        username: user.username,
+        phone: user.phone,
+        email: user.email,
+        id: user.id
     })
 }
 
