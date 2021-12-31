@@ -1,6 +1,6 @@
 exports.up = function (knex, Promise) {
     return knex.schema.alterTable('users', t => {
-        t.string('phone').unique()
+        t.string('phone').unique().notNullable()
         t.unique('email')
     })
 };
