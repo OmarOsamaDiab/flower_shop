@@ -10,11 +10,14 @@ const findByPhone = phone => User.query().findOne({ phone })
 
 const findByEmail = email => User.query().findOne({ email })
 
+const findByUserName = username => User.query().findOne({ username })
+
 const findUser = ({ email, phone }) => User.query().where({ email }).orWhere({ phone }).first()
 
 module.exports = {
     registerNewUser,
     findByPhone,
     findByEmail,
-    findUser
+    findUser,
+    findByUserName
 }

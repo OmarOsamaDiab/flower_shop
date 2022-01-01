@@ -7,18 +7,13 @@ const { wrapAsyncHandler } = require('../middlewares/wrapAsyncHandler')
 const { generateAccessToken, generateRefreshToken } = require('../utils/token')
 
 
-const register = async (req, res, next) => {
-    const { password, email, username, phone } = req.body
-    const existingUser = await UserDAL.findUser({ email, phone })
-    if (existingUser)
-        throw Boom.badRequest('this user is already registered before')
-    const hashPass = await bcrypt.hash(password, parseInt(process.env.SALT))
-    const user = await UserDAL.registerNewUser({
-        password: hashPass,
-        email,
-        username,
-        phone
-    })
+const login = async (req, res, next) => {
+    const { password, username } = req.body
+    const user = await UserDAL.findByEmail({ username })
+    const matchingPass = await bcrypt.compare(password, user.password)
+    if (!matchingPass) {
+        throw Boom.forbidden(`username or password does not match`)
+    }
     delete user.password
     const accessToken = 'bearer ' + generateAccessToken(user)
     const refreshToken = generateRefreshToken(user)
@@ -30,5 +25,5 @@ const register = async (req, res, next) => {
 }
 
 module.exports = {
-    register: wrapAsyncHandler(register)
+    login: wrapAsyncHandler(login)
 }
